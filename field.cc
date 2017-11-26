@@ -32,25 +32,23 @@ Field::Field(QWidget* parent,int i)
     : QWidget(parent)
 {
     pixmap = new QPixmap(MAX_TILE_SIZE, MAX_TILE_SIZE);
-
     m_number=i;
-
     m_pattern=NULL;
     m_checker=NULL;
     m_frame=NULL;
-
     show_frame = false;
-
     m_show_label = true;
+
+    QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    policy.setHeightForWidth(true);
+    this->setSizePolicy(policy);
 }
 
 
 void Field::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
-
     p.drawPixmap(0, 0, *pixmap);
-
     p.end();
 }
 
@@ -69,29 +67,28 @@ void Field::draw()
     paint.begin(pixmap);
     paint.setFont(font());
 
-    if(m_pattern)
-	paint.drawPixmap(0, 0, *m_pattern);
+    QSize size = this->size();
+
+    if(m_pattern) paint.drawPixmap(0, 0, m_pattern->scaled(size));
 
     // notation
     paint.setPen(Qt::white);
     QRect not_rect = paint.boundingRect(2, 2, 0, 0, Qt::AlignLeft, m_label);
     if(m_show_above) {
-	if(m_checker)
-	    paint.drawPixmap(0, 0, *m_checker);
-	if(m_show_label) {
-	    paint.fillRect(not_rect, Qt::black);
-	    paint.drawText(not_rect, Qt::AlignTop|Qt::AlignLeft, m_label);
-	}
+        if(m_checker)
+            paint.drawPixmap(0, 0, m_checker->scaled(size));
+        if(m_show_label) {
+            paint.fillRect(not_rect, Qt::black);
+            paint.drawText(not_rect, Qt::AlignTop|Qt::AlignLeft, m_label);
+        }
     } else {
-	if(m_show_label)
-	    paint.drawText(not_rect, Qt::AlignTop|Qt::AlignLeft, m_label);
-	if(m_checker)
-	    paint.drawPixmap(0, 0, *m_checker);
+        if(m_show_label)
+            paint.drawText(not_rect, Qt::AlignTop|Qt::AlignLeft, m_label);
+        if(m_checker)
+            paint.drawPixmap(0, 0, m_checker->scaled(size));
     }
 
-    if(show_frame)
-	paint.drawPixmap(0, 0, *m_frame);
-
+    if(show_frame) paint.drawPixmap(0, 0, m_frame->scaled(size));
     paint.end();
     update();
 }
@@ -148,3 +145,13 @@ void Field::showLabel(bool s, bool a)
     }
 }
 
+
+int Field::heightForWidth(int width) const
+{
+    return width; // square
+}
+
+
+void Field::resizeEvent(QResizeEvent *event) {
+    draw();
+}

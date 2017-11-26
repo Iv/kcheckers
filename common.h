@@ -55,7 +55,7 @@
 #define THEME_FILE	"theme"
 
 //
-#define MAX_TILE_SIZE	64
+#define MAX_TILE_SIZE	256
 
 #endif
 

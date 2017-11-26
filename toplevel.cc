@@ -52,6 +52,7 @@ myTopLevel::myTopLevel()
 	setWindowIcon(QIcon(":/icons/biglogo.png"));
 
 	m_newgame = new myNewGameDlg(this);
+
 	make_central_widget();
 	make_actions();
 	restore_settings();
@@ -59,13 +60,18 @@ myTopLevel::myTopLevel()
 	/*
 	 * new computer game.
 	 */
-	m_view->newGame(m_newgame->rules(), m_newgame->freePlacement(),
-			m_newgame->name(),
-			m_newgame->isWhite(), m_newgame->opponent(),
-			m_newgame->opponentName(), m_newgame->skill());
+    m_view->newGame(
+        m_newgame->rules(),
+        m_newgame->freePlacement(),
+        m_newgame->name(),
+        m_newgame->isWhite(),
+        m_newgame->opponent(),
+        m_newgame->opponentName(),
+        m_newgame->skill()
+    );
 
-	if(layout())
-		layout()->setSizeConstraint(QLayout::SetFixedSize);
+//    if(layout())
+//        layout()->setSizeConstraint(QLayout::SetFixedSize);
 }
 
 
@@ -99,9 +105,8 @@ void myTopLevel::make_actions()
 	gameQuit->setShortcut(tr("CTRL+Q", "File|Quit"));
 	connect(gameQuit, SIGNAL(triggered()),
 		this, SLOT(close()));
-//		QApplication::instance(), SLOT(quit()));
 
-	// view menu actions
+    // view menu actions
 	viewNotation = new QAction(tr("&Show Notation"), this);
 	viewNotation->setCheckable(true);
 	connect(viewNotation, SIGNAL(toggled(bool)),
@@ -339,7 +344,7 @@ void myTopLevel::restore_settings()
 
 void myTopLevel::make_central_widget()
 {
-	m_view = new myView(this);
+    m_view = new myView(this);
 
 	connect(m_view, SIGNAL(working(bool)),
 			this, SLOT(slot_working(bool)));

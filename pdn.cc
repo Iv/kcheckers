@@ -59,11 +59,12 @@ bool Pdn::open(const QString& filename, QWidget* parent,
 
 	QString str1, str2;
 
-	QProgressDialog progress(parent);
-	progress.setModal(true);
-	progress.setLabelText(label);
-	progress.setRange(0, file.size());
-	progress.setMinimumDuration(0);
+    QProgressDialog progress(label, "Cancel", 0, (int) file.size(), parent);
+//    QProgressDialog progress(label, QString("Cancel"), 0, (int) file.size(), parent, 0);
+//	progress.setModal(true);
+//    progress.setLabelText(label);
+//    progress.setRange(0, (int) file.size());
+//	progress.setMinimumDuration(0);
 
 	unsigned int line_nr = 1;
 	unsigned int game_started = 1;
@@ -308,8 +309,7 @@ bool PdnGame::parse(const QString& pdngame, QString& log_txt)
 			else if(line.startsWith("White"))   pdnWhite=line.section('"',1,1);
 			else if(line.startsWith("Black"))   pdnBlack=line.section('"',1,1);
 			else if(line.startsWith("Result")) pdnResult=line.section('"',1,1);
-			else ;  // Skip other unsupported tags
-
+            else {};  // Skip other unsupported tags
 		} else {
 			moves += " " + line;
 		}

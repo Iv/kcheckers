@@ -42,17 +42,19 @@ myBoard::myBoard(QWidget* parent)
 	 */
 	setFrameStyle(QFrame::Box|QFrame::Plain);
 	for(int i=0; i<64; i++)
+
 	m_fields[i] = new Field(this, i);
 
 	QGridLayout* grid = new QGridLayout(this);
 	grid->setSpacing(0);
 	grid->setMargin(0);
+
 	for(int i=0; i<4; i++) {
-	for(int k=0; k<4; k++) {
-		grid->addWidget(m_fields[i*8+k+32], i*2,  k*2  );
-		grid->addWidget(m_fields[i*8+k   ], i*2,  k*2+1);
-		grid->addWidget(m_fields[i*8+k+4 ], i*2+1,k*2  );
-		grid->addWidget(m_fields[i*8+k+36], i*2+1,k*2+1);
+        for(int k=0; k<4; k++) {
+            grid->addWidget(m_fields[i*8+k+32], i*2,  k*2  );
+            grid->addWidget(m_fields[i*8+k   ], i*2,  k*2+1);
+            grid->addWidget(m_fields[i*8+k+4 ], i*2+1,k*2  );
+            grid->addWidget(m_fields[i*8+k+36], i*2+1,k*2+1);
 		}
 	}
 
@@ -73,6 +75,10 @@ myBoard::myBoard(QWidget* parent)
 	xpmManWhite = 0;
 	xpmKingBlack= 0;
 	xpmKingWhite= 0;
+
+    QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    policy.setHeightForWidth(true);
+    this->setSizePolicy(policy);
 }
 
 
@@ -95,26 +101,26 @@ void myBoard::setTheme(const QString& path, bool set_white)
 	QPixmap* p7 = xpmFrame;
 
 	if(path == DEFAULT_THEME) {
-	// just in case no themes installed.
-	xpmPat1 = new QPixmap(":/icons/theme/tile1.png");
-	xpmPat2 = new QPixmap(":/icons/theme/tile2.png");
-	xpmFrame= new QPixmap(":/icons/theme/frame.png");
-	xpmManBlack = new QPixmap(":/icons/theme/manblack.png");
-	xpmManWhite = new QPixmap(":/icons/theme/manwhite.png");
-	xpmKingBlack= new QPixmap(":/icons/theme/kingblack.png");
-	xpmKingWhite= new QPixmap(":/icons/theme/kingwhite.png");
-	} else {
-	xpmPat1 = new QPixmap(path+"/"THEME_TILE1);
-	xpmPat2 = new QPixmap(path+"/"THEME_TILE2);
-	xpmFrame= new QPixmap(path+"/"THEME_FRAME);
-	xpmManBlack
-		= new QPixmap(path+"/"THEME_MANBLACK);
-	xpmManWhite
-		= new QPixmap(path+"/"THEME_MANWHITE);
-	xpmKingBlack
-		= new QPixmap(path+"/"THEME_KINGBLACK);
-	xpmKingWhite
-		= new QPixmap(path+"/"THEME_KINGWHITE);
+            // just in case no themes installed.
+            xpmPat1 = new QPixmap(":/icons/theme/tile1.png");
+            xpmPat2 = new QPixmap(":/icons/theme/tile2.png");
+            xpmFrame= new QPixmap(":/icons/theme/frame.png");
+            xpmManBlack = new QPixmap(":/icons/theme/manblack.png");
+            xpmManWhite = new QPixmap(":/icons/theme/manwhite.png");
+            xpmKingBlack= new QPixmap(":/icons/theme/kingblack.png");
+            xpmKingWhite= new QPixmap(":/icons/theme/kingwhite.png");
+        } else {
+            xpmPat1 = new QPixmap(path+"/"THEME_TILE1);
+            xpmPat2 = new QPixmap(path+"/"THEME_TILE2);
+            xpmFrame= new QPixmap(path+"/"THEME_FRAME);
+            xpmManBlack
+                = new QPixmap(path+"/"THEME_MANBLACK);
+            xpmManWhite
+                = new QPixmap(path+"/"THEME_MANWHITE);
+            xpmKingBlack
+                = new QPixmap(path+"/"THEME_KINGBLACK);
+            xpmKingWhite
+                = new QPixmap(path+"/"THEME_KINGWHITE);
 	}
 
 	setColorWhite(set_white);
@@ -126,8 +132,11 @@ void myBoard::setTheme(const QString& path, bool set_white)
 	for(int i=0; i<32; i++)
 		m_fields[i]->setFrame(xpmFrame);
 
-	setFixedSize(xpmMan1->width()*8 + 2*frameWidth(),
-		xpmMan1->height()*8 + 2*frameWidth());
+//    setFixedSize(xpmMan1->width()*8 + 2*frameWidth(),
+//        xpmMan1->height()*8 + 2*frameWidth());
+
+    setFieldsSize();
+
 
 	if(m_game)
 		do_draw();
@@ -140,6 +149,14 @@ void myBoard::setTheme(const QString& path, bool set_white)
 	if(p5) delete p5;
 	if(p6) delete p6;
 	if(p7) delete p7;
+}
+
+void myBoard::setFieldsSize(){
+    QSize self_size = this->size();
+
+    int field_width = (self_size.width() - 2*frameWidth())/8;
+    int field_height = (self_size.height() - 2*frameWidth())/8;
+    for(int i=0; i<64; i++) m_fields[i]->resize(field_width, field_height);
 }
 
 
@@ -362,3 +379,13 @@ void myBoard::doFreeMove(int from, int to)
 	do_draw();
 }
 
+
+int myBoard::heightForWidth(int width) const
+{
+    return width; // square
+}
+
+
+void myBoard::resizeEvent(QResizeEvent *event){
+    setFieldsSize();
+}

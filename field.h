@@ -32,7 +32,7 @@ class Field : public QWidget
 public:
     Field(QWidget*, int num);
 
-    const QString& label() const { return m_label; }
+    const QString& label() const { return m_label;}
     void setLabel(const QString&);
     void showLabel(bool s, bool above);
 
@@ -44,6 +44,8 @@ public:
     int number() const { return m_number; }
 
     void fontUpdate() { draw(); }
+
+    int heightForWidth(int) const;
 
 signals:
     void click(int);
@@ -71,6 +73,8 @@ private:
     QPixmap* pixmap;
 
     bool show_frame;
+
+    void resizeEvent(QResizeEvent *event);
 };
 
 #endif

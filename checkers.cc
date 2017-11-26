@@ -405,7 +405,7 @@ int Checkers::turn()
             }
         }
 
-    } else ;
+    }
 
     level--;
     return resMax;

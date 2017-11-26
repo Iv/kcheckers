@@ -62,12 +62,20 @@ public:
 	// TODO
 	const Checkers* game() const { return m_game; }
 
+
+    int heightForWidth(int) const;
+
 signals:
 	void fieldClicked(int);
+
+
+
 
 private:
 	bool convert_move(const QString&, int* from, int* to);
 	void do_draw();
+    void setFieldsSize();
+    void resizeEvent(QResizeEvent *event);
 
 private:
 	Field* m_fields[64];
@@ -87,6 +95,7 @@ private:
 	QPixmap* xpmKingWhite;
 
 	Checkers* m_game;
+
 };
 
 

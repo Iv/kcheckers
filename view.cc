@@ -22,6 +22,7 @@
 #include <QDebug>
 #include <QTimer>
 
+
 #include "pdn.h"
 #include "echeckers.h"
 #include "rcheckers.h"
@@ -55,7 +56,10 @@ myView::myView(QWidget* parent)
 	/*
 	 * board & info 
 	 */
+
+
 	m_board = new myBoard(this);
+
 	connect(m_board, SIGNAL(fieldClicked(int)),
 			this, SLOT(slot_click(int)));
 
@@ -69,9 +73,19 @@ myView::myView(QWidget* parent)
 	connect(this, SIGNAL(working(bool)),
 			m_history, SLOT(slotWorking(bool)));
 
-	QHBoxLayout* hb = new QHBoxLayout(0);
-	hb->addWidget(m_board);
+
+    this->setMinimumSize(400, 350);
+
+    QHBoxLayout* hb = new QHBoxLayout();
+
+
+
+    m_board->setMinimumWidth(8*64);
+    m_board->setMinimumHeight(8*64);
+
+    hb->addWidget(m_board, 1);
 	hb->addSpacing(5);
+    m_history->setMinimumWidth(240);
 	hb->addWidget(m_history);
 
 
@@ -79,17 +93,19 @@ myView::myView(QWidget* parent)
 	 *
 	 */
 	m_log = new QTextEdit(this);
-    	m_log->setFixedHeight(100); //FIXME
+    m_log->setMinimumHeight(100);
 	m_log->setReadOnly(true);
 
 
 	/*
 	 * it's the final layout.
 	 */
+
+
 	QVBoxLayout* vb = new QVBoxLayout(this);
-	vb->addLayout(hb);
+    vb->addLayout(hb, 1);
 	vb->addWidget(m_log);
-	vb->setSizeConstraint(QLayout::SetFixedSize);
+//	vb->setSizeConstraint(QLayout::SetFixedSize);
 
 
 	/*
