@@ -1,0 +1,11 @@
+--- orig/kcheckers-0.8.1/kcheckers.pro	2005-12-29 18:55:55.000000000 +0100
++++ kcheckers-0.8.1/kcheckers.pro	2006-11-22 19:12:28.000000000 +0100
+@@ -27,7 +27,7 @@
+ TRANSLATIONS	= i18n/kcheckers_de.ts i18n/kcheckers_fr.ts
+ #		i18n/kcheckers_ru.ts
+ 
+-target.path	= $$PREFIX/bin
++target.path	= $$PREFIX/games
+ INSTALLS	+= target
+ 
+ 

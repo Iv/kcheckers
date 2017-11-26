@@ -1,0 +1,2 @@
+?package(kcheckers):needs="X11" section="Games/Board"\
+  title="kcheckers" command="/usr/games/kcheckers"

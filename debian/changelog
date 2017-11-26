@@ -1,0 +1,19 @@
+kcheckers (0.8.1-3) unstable; urgency=low
+
+  * Switch to dpkg-source 3.0 (quilt) format.
+
+ -- Bart Martens <bartm@debian.org>  Sun, 28 Aug 2011 17:02:38 +0000
+
+kcheckers (0.8.1-2) unstable; urgency=low
+
+  * debian/watch, debian/copyright, debian/control: Upstream website has moved
+    to sourceforge.net.
+
+ -- Bart Martens <bartm@debian.org>  Sat, 26 Apr 2008 10:24:16 +0200
+
+kcheckers (0.8.1-1) unstable; urgency=low
+
+  * Initial release.  Closes: #309910.
+
+ -- Bart Martens <bartm@knars.be>  Wed, 22 Nov 2006 18:03:29 +0100
+

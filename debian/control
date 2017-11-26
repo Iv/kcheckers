@@ -1,0 +1,23 @@
+Source: kcheckers
+Section: games
+Priority: optional
+Maintainer: Bart Martens <bartm@debian.org>
+Build-Depends: debhelper (>= 8.0.0), libqt4-dev
+Standards-Version: 3.9.2
+Homepage: http://qcheckers.sourceforge.net/
+
+Package: kcheckers
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Checkers boardgame
+ kcheckers is a Qt version of the classic boardgame "checkers", also known as
+ "draughts".  It has the following features:
+  * Built-in checkers engine.
+  * Beginner, Novice, Average, Good, Expert and Master levels of skill.
+  * Several themes of the board.
+  * Portable Draughts Notation database format support.
+  * Saving, loading and restarting of game.
+  * Auto change of the men's color.
+  * Multiple Undos/Redos.
+  * Optional numeration of the board.
+  * Internationalization support (English, German, Russian and French).
