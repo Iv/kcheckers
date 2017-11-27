@@ -27,7 +27,7 @@
 #include <QMap>
 
 
-class myView;
+class MainView;
 class myNewGameDlg;
 
 
@@ -93,7 +93,7 @@ private:
 
     QString filename;      // PDN File Name
 
-    myView* m_view;
+    MainView* m_view;
     myNewGameDlg* m_newgame;
 
     typedef QMap<QAction*, QString> myThemeMap;

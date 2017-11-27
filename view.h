@@ -36,13 +36,13 @@ class myPlayer;
 class myHistory;
 
 
-class myView : public QFrame
+class MainView : public QFrame
 {
 	Q_OBJECT
 
 public:
-	myView(QWidget* parent);
-	~myView();
+    MainView(QWidget* parent);
+    ~MainView();
 
 	void newGame(int rules, bool free_place,
 			const QString& name, bool is_white,
@@ -110,7 +110,7 @@ private:
 	myPlayer* m_player;
 	myPlayer* m_current;
 
-	myBoard* m_board;
+    Board* m_board;
 	myHistory* m_history;
 	QTextEdit* m_log;
 

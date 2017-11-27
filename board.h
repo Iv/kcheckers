@@ -23,19 +23,18 @@
 
 
 #include <QFrame>
-#include <QGridLayout>
 
 #include "field.h"
 #include "checkers.h"
 
 
-class myBoard : public QFrame
+class Board : public QFrame
 {
 	Q_OBJECT
 
 public:
-	myBoard(QWidget* parent);
-	~myBoard();
+    Board(QWidget* parent);
+    ~Board();
 
 	// returns coded move string: from_pos_string?to_pos_string
 	QString doMove(int from_pos, int to_pos, bool white_player);
@@ -64,8 +63,8 @@ public:
 	const Checkers* game() const { return m_game; }
 
 
-    int heightForWidth(int) const;
-    bool hasHeightForWidth() const;
+    int heightForWidth(int) const override;
+    bool hasHeightForWidth() const override;
 
 signals:
 	void fieldClicked(int);
@@ -97,8 +96,6 @@ private:
 	QPixmap* xpmKingWhite;
 
 	Checkers* m_game;
-    QGridLayout* grid;
-
 };
 
 

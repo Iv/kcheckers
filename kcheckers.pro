@@ -1,7 +1,7 @@
 TEMPLATE = app
 
 INCLUDEPATH += /usr/local/include/
-CONFIG  += qt
+CONFIG  += qt c++11
 QT += gui widgets
 
 HEADERS	= pdn.h \
@@ -9,7 +9,8 @@ HEADERS	= pdn.h \
 	    field.h toplevel.h view.h history.h board.h \
 	    newgamedlg.h \
 	    common.h \
-	    player.h humanplayer.h computerplayer.h
+	    player.h humanplayer.h computerplayer.h \
+    squarewrapper.h
 	   
 
 SOURCES	= pdn.cc \
@@ -17,7 +18,8 @@ SOURCES	= pdn.cc \
 	    field.cc toplevel.cc view.cc history.cc board.cc \
 	    main.cc \
 	    newgamedlg.cc \
-	    humanplayer.cc computerplayer.cc
+	    humanplayer.cc computerplayer.cc \
+    squarewrapper.cpp
 
 RESOURCES = kcheckers.qrc
 
@@ -25,7 +27,8 @@ RESOURCES = kcheckers.qrc
 TARGET		= kcheckers
 PREFIX		= /usr
 
-TRANSLATIONS	= i18n/kcheckers_de.ts i18n/kcheckers_fr.ts i18n/kcheckers_ru.ts
+TRANSLATIONS	= i18n/kcheckers_de.ts i18n/kcheckers_fr.ts
+# i18n/kcheckers_ru.ts
 
 target.path	= $$PREFIX/games
 INSTALLS	+= target

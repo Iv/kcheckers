@@ -35,7 +35,7 @@
 */
 
 
-myBoard::myBoard(QWidget* parent)
+Board::Board(QWidget* parent)
 	: QFrame(parent)
 {
 	/*
@@ -45,8 +45,7 @@ myBoard::myBoard(QWidget* parent)
 	for(int i=0; i<64; i++)
 
 	m_fields[i] = new Field(this, i);
-
-    grid = new QGridLayout(this);
+    QGridLayout *grid = new QGridLayout(this);
 	grid->setSpacing(0);
 	grid->setMargin(0);
 
@@ -80,24 +79,21 @@ myBoard::myBoard(QWidget* parent)
     this->setMinimumWidth(32*8 + 2*frameWidth());
     this->setMinimumHeight(32*8 + 2*frameWidth());
 
-
     QSizePolicy policy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     policy.setHeightForWidth(true);
     this->setSizePolicy(policy);
+    this->setSizeIncrement(QSize(8, 8));
 }
 
 
-myBoard::~myBoard()
+Board::~Board()
 {
 	if(m_game)
 		delete m_game;
-
-    if(grid)
-        delete grid;
 }
 
 
-void myBoard::setTheme(const QString& path, bool set_white)
+void Board::setTheme(const QString& path, bool set_white)
 {
 	// delete them later.
 	QPixmap* p1 = xpmManWhite;
@@ -159,7 +155,7 @@ void myBoard::setTheme(const QString& path, bool set_white)
 	if(p7) delete p7;
 }
 
-void myBoard::setFieldsSize(){
+void Board::setFieldsSize(){
     QSize self_size = this->size();
 
     int field_width = (self_size.width() - 2*frameWidth())/8;
@@ -168,7 +164,7 @@ void myBoard::setFieldsSize(){
 }
 
 
-void myBoard::reset()
+void Board::reset()
 {
 	int new_board[32];
 
@@ -190,7 +186,7 @@ void myBoard::reset()
 }
 
 
-void myBoard::adjustNotation(bool bottom_is_white)
+void Board::adjustNotation(bool bottom_is_white)
 {
 	if(!m_game)
 		return;
@@ -208,7 +204,7 @@ void myBoard::adjustNotation(bool bottom_is_white)
 }
 
 
-void myBoard::do_draw()
+void Board::do_draw()
 {
 	for(int i=0; i<32; i++) {
 	switch(m_game->item(i)) {
@@ -231,7 +227,7 @@ void myBoard::do_draw()
 }
 
 
-void myBoard::setColorWhite(bool b)
+void Board::setColorWhite(bool b)
 {
 	if(b) {
 	xpmMan1 = xpmManWhite;
@@ -246,7 +242,7 @@ void myBoard::setColorWhite(bool b)
 	}
 }
 
-void myBoard::setNotation(bool s, bool above)
+void Board::setNotation(bool s, bool above)
 {
 	for(int i=0; i<32; i++)
 	m_fields[i]->showLabel(s, above);
@@ -272,7 +268,7 @@ void myBoard::do_move(const QString& move)
 
 
 
-bool myBoard::convert_move(const QString& move_orig, int* from_num, int* to_num)
+bool Board::convert_move(const QString& move_orig, int* from_num, int* to_num)
 {
 	QString move = move_orig.toUpper().replace('X', '-');
 	QString from;
@@ -300,7 +296,7 @@ bool myBoard::convert_move(const QString& move_orig, int* from_num, int* to_num)
 }
 
 
-void myBoard::setNotationFont(const QFont& f)
+void Board::setNotationFont(const QFont& f)
 {
 	setFont(f);
 	for(int i=0; i<32; i++)
@@ -308,7 +304,7 @@ void myBoard::setNotationFont(const QFont& f)
 }
 
 
-void myBoard::setGame(int rules)
+void Board::setGame(int rules)
 {
 	if(m_game)
 		delete m_game;
@@ -323,7 +319,7 @@ void myBoard::setGame(int rules)
 }
 
 
-void myBoard::selectField(int field_num, bool is_on)
+void Board::selectField(int field_num, bool is_on)
 {
 	for(int i=0; i<32; i++) {
 		if(i==field_num)
@@ -334,7 +330,7 @@ void myBoard::selectField(int field_num, bool is_on)
 }
 
 
-QString myBoard::doMove(int from_num, int to_num, bool white_player)
+QString Board::doMove(int from_num, int to_num, bool white_player)
 {
 	bool bottom_player = (white_player && (xpmMan1==xpmManWhite))
 		|| (!white_player && (xpmMan1==xpmManBlack));
@@ -358,7 +354,9 @@ QString myBoard::doMove(int from_num, int to_num, bool white_player)
 	if(!bottom_player) {
 		m_game->fromString(m_game->toString(true));
 	}
-
+    QSize size = this->size();
+    int side = std::max(size.width(), size.height());
+    this->resize(side, side);
 	do_draw();
 
 	return QString("%1?%3")
@@ -367,7 +365,7 @@ QString myBoard::doMove(int from_num, int to_num, bool white_player)
 }
 
 
-bool myBoard::doMove(const QString& move, bool white_player)
+bool Board::doMove(const QString& move, bool white_player)
 {
 	int from_pos, to_pos;
 	if(convert_move(move, &from_pos, &to_pos)) {
@@ -378,7 +376,7 @@ bool myBoard::doMove(const QString& move, bool white_player)
 }
 
 
-void myBoard::doFreeMove(int from, int to)
+void Board::doFreeMove(int from, int to)
 {
 	int old_to = m_game->item(to);
 	int old_from = m_game->item(from);
@@ -388,19 +386,19 @@ void myBoard::doFreeMove(int from, int to)
 }
 
 
-int myBoard::heightForWidth(int width) const
+int Board::heightForWidth(int width) const
 {
     return width; // square
 }
 
-bool myBoard::hasHeightForWidth() const {
+bool Board::hasHeightForWidth() const {
     return true;
 }
 
-void myBoard::resizeEvent(QResizeEvent *event){
-    QSize size = this->size();
-    int side = std::max(size.width(), size.height());
-    this->resize(side, side);
+void Board::resizeEvent(QResizeEvent *event){
+//    QSize size = this->size();
+//    int side = std::max(size.width(), size.height());
+//    this->resize(side, side);
     setFieldsSize();
 }
 

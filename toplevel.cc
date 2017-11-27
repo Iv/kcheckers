@@ -344,7 +344,7 @@ void myTopLevel::restore_settings()
 
 void myTopLevel::make_central_widget()
 {
-    m_view = new myView(this);
+    m_view = new MainView(this);
 
 	connect(m_view, SIGNAL(working(bool)),
 			this, SLOT(slot_working(bool)));
