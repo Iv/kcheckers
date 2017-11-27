@@ -46,6 +46,7 @@ public:
     void fontUpdate() { draw(); }
 
     int heightForWidth(int) const;
+    bool hasHeightForWidth() const;
 
 signals:
     void click(int);

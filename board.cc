@@ -25,6 +25,7 @@
 #include "pdn.h"
 #include "echeckers.h"
 #include "rcheckers.h"
+
 /*
 #include "newgamedlg.h"
 
@@ -45,7 +46,7 @@ myBoard::myBoard(QWidget* parent)
 
 	m_fields[i] = new Field(this, i);
 
-	QGridLayout* grid = new QGridLayout(this);
+    grid = new QGridLayout(this);
 	grid->setSpacing(0);
 	grid->setMargin(0);
 
@@ -76,7 +77,11 @@ myBoard::myBoard(QWidget* parent)
 	xpmKingBlack= 0;
 	xpmKingWhite= 0;
 
-    QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    this->setMinimumWidth(32*8 + 2*frameWidth());
+    this->setMinimumHeight(32*8 + 2*frameWidth());
+
+
+    QSizePolicy policy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     policy.setHeightForWidth(true);
     this->setSizePolicy(policy);
 }
@@ -86,6 +91,9 @@ myBoard::~myBoard()
 {
 	if(m_game)
 		delete m_game;
+
+    if(grid)
+        delete grid;
 }
 
 
@@ -385,7 +393,14 @@ int myBoard::heightForWidth(int width) const
     return width; // square
 }
 
+bool myBoard::hasHeightForWidth() const {
+    return true;
+}
 
 void myBoard::resizeEvent(QResizeEvent *event){
+    QSize size = this->size();
+    int side = std::max(size.width(), size.height());
+    this->resize(side, side);
     setFieldsSize();
 }
+

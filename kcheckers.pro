@@ -30,7 +30,6 @@ TRANSLATIONS	= i18n/kcheckers_de.ts i18n/kcheckers_fr.ts i18n/kcheckers_ru.ts
 target.path	= $$PREFIX/games
 INSTALLS	+= target
 
-
 #
 # This hack is needed for i18n support.
 #

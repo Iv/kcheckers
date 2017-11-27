@@ -72,20 +72,6 @@ myHistory::myHistory(QWidget* parent)
 		this,
 		SLOT(slot_move(QTreeWidgetItem*, QTreeWidgetItem*)));
 
-	// history
-	/*
-	gameUndo = new QAction(QIcon(":/icons/undo.png"), tr("&Undo"), this);
-	connect(gameUndo, SIGNAL(triggered()), m_view, SLOT(slotUndo()));
-
-	gameRedo = new QAction(QIcon(":/icons/redo.png"), tr("&Redo"), this);
-	connect(gameRedo, SIGNAL(triggered()), m_view, SLOT(slotRedo()));
-
-	gameContinue = new QAction(QIcon(":/icons/continue.png"),
-			tr("&Continue"), this);
-	connect(gameContinue, SIGNAL(triggered()), m_view, SLOT(slotContinue()));
-
-
-	 */
 	m_mode_icon = new QLabel(this);
 	m_mode_icon->setFrameStyle(QFrame::Panel | QFrame::Sunken);
 
@@ -108,11 +94,10 @@ myHistory::myHistory(QWidget* parent)
 
 	QHBoxLayout* history = new QHBoxLayout();
 	history->addWidget(m_mode_icon);
-//TODO	history->addStretch();
 	history->addWidget(m_undo);
 	history->addWidget(m_redo);
 	history->addWidget(m_cont);
-	history->addStretch();
+    history->addStretch(1);
 	history->addWidget(m_current);
 
 	// layout

@@ -155,3 +155,7 @@ int Field::heightForWidth(int width) const
 void Field::resizeEvent(QResizeEvent *event) {
     draw();
 }
+
+bool Field::hasHeightForWidth() const {
+    return true;
+}

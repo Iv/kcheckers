@@ -23,6 +23,7 @@
 
 
 #include <QFrame>
+#include <QGridLayout>
 
 #include "field.h"
 #include "checkers.h"
@@ -64,6 +65,7 @@ public:
 
 
     int heightForWidth(int) const;
+    bool hasHeightForWidth() const;
 
 signals:
 	void fieldClicked(int);
@@ -95,6 +97,7 @@ private:
 	QPixmap* xpmKingWhite;
 
 	Checkers* m_game;
+    QGridLayout* grid;
 
 };
 

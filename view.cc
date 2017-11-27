@@ -42,8 +42,7 @@
 // this class is used to note differencies between moves.
 class myDiff {
 public:
-	myDiff(int pos, int from, int to)
-		: m_pos(pos), m_from(from), m_to(to) {}
+	myDiff(int pos, int from, int to): m_pos(pos), m_from(from), m_to(to) {}
 	int m_pos;
 	int m_from;
 	int m_to;
@@ -74,19 +73,13 @@ myView::myView(QWidget* parent)
 			m_history, SLOT(slotWorking(bool)));
 
 
-    this->setMinimumSize(400, 350);
 
     QHBoxLayout* hb = new QHBoxLayout();
 
-
-
-    m_board->setMinimumWidth(8*64);
-    m_board->setMinimumHeight(8*64);
-
-    hb->addWidget(m_board, 1);
-	hb->addSpacing(5);
+    hb->addWidget(m_board, 2, Qt::AlignJustify);
+    hb->addSpacing(5);
     m_history->setMinimumWidth(240);
-	hb->addWidget(m_history);
+    hb->addWidget(m_history, 0, Qt::AlignTop);
 
 
 	/*
@@ -104,9 +97,7 @@ myView::myView(QWidget* parent)
 
 	QVBoxLayout* vb = new QVBoxLayout(this);
     vb->addLayout(hb, 1);
-	vb->addWidget(m_log);
-//	vb->setSizeConstraint(QLayout::SetFixedSize);
-
+    vb->addWidget(m_log);
 
 	/*
 	 * game init
