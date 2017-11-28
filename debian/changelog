@@ -1,3 +1,9 @@
+kcheckers (0.8.2-0) unstable; urgency=low
+  
+  * Resizable board added
+
+ -- Ivan Kravchenko <iv.kravchenko@gmail.com>  Mon, 29 Nov 2017 00:40:00 +0300
+
 kcheckers (0.8.1-3) unstable; urgency=low
 
   * Switch to dpkg-source 3.0 (quilt) format.
