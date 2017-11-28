@@ -36,45 +36,45 @@
 
 
 Board::Board(QWidget* parent)
-	: QFrame(parent)
+    : QFrame(parent)
 {
-	/*
-	 * board & info 
-	 */
-	setFrameStyle(QFrame::Box|QFrame::Plain);
-	for(int i=0; i<64; i++)
+    /*
+     * board & info
+     */
+    setFrameStyle(QFrame::Box|QFrame::Plain);
+    for(int i=0; i<64; i++)
 
-	m_fields[i] = new Field(this, i);
+        m_fields[i] = new Field(this, i);
     QGridLayout *grid = new QGridLayout(this);
-	grid->setSpacing(0);
-	grid->setMargin(0);
+    grid->setSpacing(0);
+    grid->setMargin(0);
 
-	for(int i=0; i<4; i++) {
+    for(int i=0; i<4; i++) {
         for(int k=0; k<4; k++) {
             grid->addWidget(m_fields[i*8+k+32], i*2,  k*2  );
             grid->addWidget(m_fields[i*8+k   ], i*2,  k*2+1);
             grid->addWidget(m_fields[i*8+k+4 ], i*2+1,k*2  );
             grid->addWidget(m_fields[i*8+k+36], i*2+1,k*2+1);
-		}
-	}
+        }
+    }
 
-	for(int i=0; i<32; i++)
-		connect(m_fields[i], SIGNAL(click(int)),
-				this, SIGNAL(fieldClicked(int)));
+    for(int i=0; i<32; i++)
+        connect(m_fields[i], SIGNAL(click(int)),
+                this, SIGNAL(fieldClicked(int)));
 
 
-	/*
-	 * game init
-	 */
-	m_game = 0;
+    /*
+     * game init
+     */
+    m_game = 0;
 
-	xpmPat1 = 0;
-	xpmPat2 = 0;
-	xpmFrame= 0;
-	xpmManBlack = 0;
-	xpmManWhite = 0;
-	xpmKingBlack= 0;
-	xpmKingWhite= 0;
+    xpmPat1 = 0;
+    xpmPat2 = 0;
+    xpmFrame= 0;
+    xpmManBlack = 0;
+    xpmManWhite = 0;
+    xpmKingBlack= 0;
+    xpmKingWhite= 0;
 
     this->setMinimumWidth(32*8 + 2*frameWidth());
     this->setMinimumHeight(32*8 + 2*frameWidth());
@@ -88,77 +88,77 @@ Board::Board(QWidget* parent)
 
 Board::~Board()
 {
-	if(m_game)
-		delete m_game;
+    if(m_game)
+        delete m_game;
 }
 
 
 void Board::setTheme(const QString& path, bool set_white)
 {
-	// delete them later.
-	QPixmap* p1 = xpmManWhite;
-	QPixmap* p2 = xpmManBlack;
-	QPixmap* p3 = xpmKingWhite;
-	QPixmap* p4 = xpmKingBlack;
-	QPixmap* p5 = xpmPat1;
-	QPixmap* p6 = xpmPat2;
-	QPixmap* p7 = xpmFrame;
+    // delete them later.
+    QPixmap* p1 = xpmManWhite;
+    QPixmap* p2 = xpmManBlack;
+    QPixmap* p3 = xpmKingWhite;
+    QPixmap* p4 = xpmKingBlack;
+    QPixmap* p5 = xpmPat1;
+    QPixmap* p6 = xpmPat2;
+    QPixmap* p7 = xpmFrame;
 
-	if(path == DEFAULT_THEME) {
-            // just in case no themes installed.
-            xpmPat1 = new QPixmap(":/icons/theme/tile1.png");
-            xpmPat2 = new QPixmap(":/icons/theme/tile2.png");
-            xpmFrame= new QPixmap(":/icons/theme/frame.png");
-            xpmManBlack = new QPixmap(":/icons/theme/manblack.png");
-            xpmManWhite = new QPixmap(":/icons/theme/manwhite.png");
-            xpmKingBlack= new QPixmap(":/icons/theme/kingblack.png");
-            xpmKingWhite= new QPixmap(":/icons/theme/kingwhite.png");
-        } else {
-            xpmPat1 = new QPixmap(path+"/"THEME_TILE1);
-            xpmPat2 = new QPixmap(path+"/"THEME_TILE2);
-            xpmFrame= new QPixmap(path+"/"THEME_FRAME);
-            xpmManBlack
+    if(path == DEFAULT_THEME) {
+        // just in case no themes installed.
+        xpmPat1 = new QPixmap(":/icons/theme/tile1.png");
+        xpmPat2 = new QPixmap(":/icons/theme/tile2.png");
+        xpmFrame= new QPixmap(":/icons/theme/frame.png");
+        xpmManBlack = new QPixmap(":/icons/theme/manblack.png");
+        xpmManWhite = new QPixmap(":/icons/theme/manwhite.png");
+        xpmKingBlack= new QPixmap(":/icons/theme/kingblack.png");
+        xpmKingWhite= new QPixmap(":/icons/theme/kingwhite.png");
+    } else {
+        xpmPat1 = new QPixmap(path+"/"THEME_TILE1);
+        xpmPat2 = new QPixmap(path+"/"THEME_TILE2);
+        xpmFrame= new QPixmap(path+"/"THEME_FRAME);
+        xpmManBlack
                 = new QPixmap(path+"/"THEME_MANBLACK);
-            xpmManWhite
+        xpmManWhite
                 = new QPixmap(path+"/"THEME_MANWHITE);
-            xpmKingBlack
+        xpmKingBlack
                 = new QPixmap(path+"/"THEME_KINGBLACK);
-            xpmKingWhite
+        xpmKingWhite
                 = new QPixmap(path+"/"THEME_KINGWHITE);
-	}
+    }
 
-	setColorWhite(set_white);
+    setColorWhite(set_white);
 
-	for(int i=0; i<32; i++)
-		m_fields[i]->setPattern(xpmPat2);
-	for(int i=32; i<64; i++)
-		m_fields[i]->setPattern(xpmPat1);
-	for(int i=0; i<32; i++)
-		m_fields[i]->setFrame(xpmFrame);
+    for(int i=0; i<32; i++)
+        m_fields[i]->setPattern(xpmPat2);
+    for(int i=32; i<64; i++)
+        m_fields[i]->setPattern(xpmPat1);
+    for(int i=0; i<32; i++)
+        m_fields[i]->setFrame(xpmFrame);
 
-//    setFixedSize(xpmMan1->width()*8 + 2*frameWidth(),
-//        xpmMan1->height()*8 + 2*frameWidth());
+    //    setFixedSize(xpmMan1->width()*8 + 2*frameWidth(),
+    //        xpmMan1->height()*8 + 2*frameWidth());
 
     setFieldsSize();
 
 
-	if(m_game)
-		do_draw();
+    if(m_game)
+        do_draw();
 
-	// now delete.
-	if(p1) delete p1;
-	if(p2) delete p2;
-	if(p3) delete p3;
-	if(p4) delete p4;
-	if(p5) delete p5;
-	if(p6) delete p6;
-	if(p7) delete p7;
+    // now delete.
+    if(p1) delete p1;
+    if(p2) delete p2;
+    if(p3) delete p3;
+    if(p4) delete p4;
+    if(p5) delete p5;
+    if(p6) delete p6;
+    if(p7) delete p7;
 }
 
 void Board::setFieldsSize(){
     QSize self_size = this->size();
 
-    int field_width = (self_size.width() - 2*frameWidth())/8;
+    int field_width = std::ceil(((float)(self_size.width() - 2*frameWidth()))/8.0);
     int field_height = (self_size.height() - 2*frameWidth())/8;
     for(int i=0; i<64; i++) m_fields[i]->resize(field_width, field_height);
 }
@@ -166,223 +166,223 @@ void Board::setFieldsSize(){
 
 void Board::reset()
 {
-	int new_board[32];
+    int new_board[32];
 
-	for(int i=0; i<12; i++)
-		new_board[i]=MAN2;
-	for(int i=12; i<20; i++)
-		new_board[i]=FREE;
-	for(int i=20; i<32; i++)
-		new_board[i]=MAN1;
+    for(int i=0; i<12; i++)
+        new_board[i]=MAN2;
+    for(int i=12; i<20; i++)
+        new_board[i]=FREE;
+    for(int i=20; i<32; i++)
+        new_board[i]=MAN1;
 
-	// reset frames.
-	for(int i=0; i<32; i++)
-		m_fields[i]->showFrame(false);
+    // reset frames.
+    for(int i=0; i<32; i++)
+        m_fields[i]->showFrame(false);
 
-	if(m_game)
-		m_game->setup(new_board);
+    if(m_game)
+        m_game->setup(new_board);
 
-	do_draw();
+    do_draw();
 }
 
 
 void Board::adjustNotation(bool bottom_is_white)
 {
-	if(!m_game)
-		return;
+    if(!m_game)
+        return;
 
-	QString notation = (m_game->type()==ENGLISH
-			? ENOTATION : QString(RNOTATION).toUpper());
+    QString notation = (m_game->type()==ENGLISH
+                        ? ENOTATION : QString(RNOTATION).toUpper());
 
-	if(bottom_is_white) {
-		for(int i=0; i<32; i++)
-			m_fields[i]->setLabel(notation.mid(i*2,2).trimmed());
-	} else {
-		for(int i=0; i<32; i++)
-			m_fields[i]->setLabel(notation.mid(62-i*2,2).trimmed());
-	}
+    if(bottom_is_white) {
+        for(int i=0; i<32; i++)
+            m_fields[i]->setLabel(notation.mid(i*2,2).trimmed());
+    } else {
+        for(int i=0; i<32; i++)
+            m_fields[i]->setLabel(notation.mid(62-i*2,2).trimmed());
+    }
 }
 
 
 void Board::do_draw()
 {
-	for(int i=0; i<32; i++) {
-	switch(m_game->item(i)) {
-	case MAN1:
-		m_fields[i]->setPicture(xpmMan1);
-		break;
-	case MAN2:
-		m_fields[i]->setPicture(xpmMan2);
-		break;
-	case KING1:
-		m_fields[i]->setPicture(xpmKing1);
-		break;
-	case KING2:
-		m_fields[i]->setPicture(xpmKing2);
-		break;
-	default:
-		m_fields[i]->setPicture(NULL);
-	}
-	}
+    for(int i=0; i<32; i++) {
+        switch(m_game->item(i)) {
+        case MAN1:
+            m_fields[i]->setPicture(xpmMan1);
+            break;
+        case MAN2:
+            m_fields[i]->setPicture(xpmMan2);
+            break;
+        case KING1:
+            m_fields[i]->setPicture(xpmKing1);
+            break;
+        case KING2:
+            m_fields[i]->setPicture(xpmKing2);
+            break;
+        default:
+            m_fields[i]->setPicture(NULL);
+        }
+    }
 }
 
 
 void Board::setColorWhite(bool b)
 {
-	if(b) {
-	xpmMan1 = xpmManWhite;
-	xpmMan2 = xpmManBlack;
-	xpmKing1= xpmKingWhite;
-	xpmKing2= xpmKingBlack;
-	} else {
-	xpmMan1 = xpmManBlack;
-	xpmMan2 = xpmManWhite;
-	xpmKing1= xpmKingBlack;
-	xpmKing2= xpmKingWhite;
-	}
+    if(b) {
+        xpmMan1 = xpmManWhite;
+        xpmMan2 = xpmManBlack;
+        xpmKing1= xpmKingWhite;
+        xpmKing2= xpmKingBlack;
+    } else {
+        xpmMan1 = xpmManBlack;
+        xpmMan2 = xpmManWhite;
+        xpmKing1= xpmKingBlack;
+        xpmKing2= xpmKingWhite;
+    }
 }
 
 void Board::setNotation(bool s, bool above)
 {
-	for(int i=0; i<32; i++)
-	m_fields[i]->showLabel(s, above);
+    for(int i=0; i<32; i++)
+        m_fields[i]->showLabel(s, above);
 }
 
 /*
 void myBoard::do_move(const QString& move)
 {
-	qDebug() << __PRETTY_FUNCTION__;
-	if(!m_current->isHuman()) {
-	add_log(myBoard::Warning, tr("It's not your turn."));
-	return;
-	}
+    qDebug() << __PRETTY_FUNCTION__;
+    if(!m_current->isHuman()) {
+    add_log(myBoard::Warning, tr("It's not your turn."));
+    return;
+    }
 
-	int from_num, to_num;
-	if(extract_move(move, &from_num, &to_num)) {
-	slot_click(from_num);
-		slot_click(to_num);
-	} else
-	add_log(myBoard::Warning, tr("Syntax error. Usage: /from-to"));
+    int from_num, to_num;
+    if(extract_move(move, &from_num, &to_num)) {
+    slot_click(from_num);
+        slot_click(to_num);
+    } else
+    add_log(myBoard::Warning, tr("Syntax error. Usage: /from-to"));
 }
-	*/
+    */
 
 
 
 bool Board::convert_move(const QString& move_orig, int* from_num, int* to_num)
 {
-	QString move = move_orig.toUpper().replace('X', '-');
-	QString from;
-	QString to;
-	int sect = move.count('-');
+    QString move = move_orig.toUpper().replace('X', '-');
+    QString from;
+    QString to;
+    int sect = move.count('-');
 
-	*from_num = *to_num = -1;
+    *from_num = *to_num = -1;
 
-	from = move.section('-', 0, 0);
-	to = move.section('-', sect, sect);
+    from = move.section('-', 0, 0);
+    to = move.section('-', sect, sect);
 
-	if(from!=QString::null && to!=QString::null) {
-		for(int i=0; i<32; i++) {
-			if(m_fields[i]->label()==from)
-				*from_num = m_fields[i]->number();
-			if(m_fields[i]->label()==to)
-				*to_num = m_fields[i]->number();
-		}
+    if(from!=QString::null && to!=QString::null) {
+        for(int i=0; i<32; i++) {
+            if(m_fields[i]->label()==from)
+                *from_num = m_fields[i]->number();
+            if(m_fields[i]->label()==to)
+                *to_num = m_fields[i]->number();
+        }
 
-		if(*from_num>=0 && *to_num>=0)
-			return true;
-	}
+        if(*from_num>=0 && *to_num>=0)
+            return true;
+    }
 
-	return false;
+    return false;
 }
 
 
 void Board::setNotationFont(const QFont& f)
 {
-	setFont(f);
-	for(int i=0; i<32; i++)
-		m_fields[i]->fontUpdate();
+    setFont(f);
+    for(int i=0; i<32; i++)
+        m_fields[i]->fontUpdate();
 }
 
 
 void Board::setGame(int rules)
 {
-	if(m_game)
-		delete m_game;
+    if(m_game)
+        delete m_game;
 
-	if(rules==ENGLISH) {
-		m_game = new ECheckers();
-	} else {
-		m_game = new RCheckers();
-	}
+    if(rules==ENGLISH) {
+        m_game = new ECheckers();
+    } else {
+        m_game = new RCheckers();
+    }
 
-	reset();
+    reset();
 }
 
 
 void Board::selectField(int field_num, bool is_on)
 {
-	for(int i=0; i<32; i++) {
-		if(i==field_num)
-			m_fields[i]->showFrame(is_on);
-		else
-			m_fields[i]->showFrame(false);
-	}
+    for(int i=0; i<32; i++) {
+        if(i==field_num)
+            m_fields[i]->showFrame(is_on);
+        else
+            m_fields[i]->showFrame(false);
+    }
 }
 
 
 QString Board::doMove(int from_num, int to_num, bool white_player)
 {
-	bool bottom_player = (white_player && (xpmMan1==xpmManWhite))
-		|| (!white_player && (xpmMan1==xpmManBlack));
+    bool bottom_player = (white_player && (xpmMan1==xpmManWhite))
+            || (!white_player && (xpmMan1==xpmManBlack));
 
-	int from_pos = from_num;
-	int to_pos = to_num;
+    int from_pos = from_num;
+    int to_pos = to_num;
 
-	if(!bottom_player) {
-		from_pos = 31-from_pos;
-		to_pos = 31-to_pos;
-		m_game->fromString(m_game->toString(true));
-	}
-	if(!m_game->go1(from_pos, to_pos)) {
-		return QString::null;
-		/*
-		qDebug() << __PRETTY_FUNCTION__
-			<< from_pos << "," << to_pos
-			<< " could not move.";
-		*/
-	}
-	if(!bottom_player) {
-		m_game->fromString(m_game->toString(true));
-	}
+    if(!bottom_player) {
+        from_pos = 31-from_pos;
+        to_pos = 31-to_pos;
+        m_game->fromString(m_game->toString(true));
+    }
+    if(!m_game->go1(from_pos, to_pos)) {
+        return QString::null;
+        /*
+        qDebug() << __PRETTY_FUNCTION__
+            << from_pos << "," << to_pos
+            << " could not move.";
+        */
+    }
+    if(!bottom_player) {
+        m_game->fromString(m_game->toString(true));
+    }
     QSize size = this->size();
     int side = std::max(size.width(), size.height());
     this->resize(side, side);
-	do_draw();
+    do_draw();
 
-	return QString("%1?%3")
-		.arg(m_fields[from_num]->label())
-		.arg(m_fields[to_num]->label());
+    return QString("%1?%3")
+            .arg(m_fields[from_num]->label())
+            .arg(m_fields[to_num]->label());
 }
 
 
 bool Board::doMove(const QString& move, bool white_player)
 {
-	int from_pos, to_pos;
-	if(convert_move(move, &from_pos, &to_pos)) {
-		doMove(from_pos, to_pos, white_player);
-		return true;
-	}
-	return false;
+    int from_pos, to_pos;
+    if(convert_move(move, &from_pos, &to_pos)) {
+        doMove(from_pos, to_pos, white_player);
+        return true;
+    }
+    return false;
 }
 
 
 void Board::doFreeMove(int from, int to)
 {
-	int old_to = m_game->item(to);
-	int old_from = m_game->item(from);
-	m_game->setItem(to, old_from);
-	m_game->setItem(from, old_to);
-	do_draw();
+    int old_to = m_game->item(to);
+    int old_from = m_game->item(from);
+    m_game->setItem(to, old_from);
+    m_game->setItem(from, old_to);
+    do_draw();
 }
 
 
@@ -396,9 +396,6 @@ bool Board::hasHeightForWidth() const {
 }
 
 void Board::resizeEvent(QResizeEvent *event){
-//    QSize size = this->size();
-//    int side = std::max(size.width(), size.height());
-//    this->resize(side, side);
     setFieldsSize();
 }
 
