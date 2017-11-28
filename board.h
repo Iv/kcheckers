@@ -70,13 +70,14 @@ signals:
 	void fieldClicked(int);
 
 
-
+protected:
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
 	bool convert_move(const QString&, int* from, int* to);
 	void do_draw();
     void setFieldsSize();
-    void resizeEvent(QResizeEvent *event);
+
 
 private:
 	Field* m_fields[64];

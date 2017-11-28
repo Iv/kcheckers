@@ -40,7 +40,7 @@
 #define THEME_DIR	"themes/"
 
 // some keys for QSettings
-#define CFG_KEY		"/"APPNAME"/"
+#define CFG_KEY "/"APPNAME"/"
 
 //
 #define DEFAULT_THEME	"Default"

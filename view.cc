@@ -77,6 +77,7 @@ MainView::MainView(QWidget* parent)
 
     QHBoxLayout* hb = new QHBoxLayout();
     SquareWrapper* sq = new SquareWrapper();
+    sq->setSizeIncrement(QSize(8, 8));
 
     sq->setWidget(m_board);
     hb->addWidget(sq,  2);

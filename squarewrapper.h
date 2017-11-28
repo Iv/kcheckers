@@ -17,7 +17,7 @@ public:
     }
 
     virtual void setWidget(QWidget *widget){
-        if (m_widget = widget)
+        if ((m_widget = widget))
                 m_widget->setParent(this);
         this->setMinimumSize(m_widget->minimumSize());
     }
@@ -33,9 +33,13 @@ protected:
 private:
     void fixup ()
     {
+        int side = std::min(height(), width());
         if (m_widget) {
-            QRect r(QPoint(), QSize(height(), height()));
-            r.moveCenter(rect().center());
+            QRect r(QPoint(), QSize(side, side));
+
+//            r.moveCenter(rect().center());
+            r.moveTopLeft(rect().topLeft());
+
             m_widget->setGeometry(r);
         }
     }
