@@ -137,7 +137,7 @@ void myTopLevel::make_actions()
 	connect(helpRules, SIGNAL(triggered()), this, SLOT(slot_help()));
 
 	QAction* helpAbout = new QAction(QIcon(":/icons/logo.png"),
-		tr("&About")+" "APPNAME, this);
+        tr("&About")+" "+APPNAME, this);
 	connect(helpAbout, SIGNAL(triggered()), this, SLOT(slot_about()));
 
 	QAction* helpAboutQt = new QAction(tr("About &Qt"), this);
@@ -206,10 +206,10 @@ void myTopLevel::make_actions()
 	viewMenu->addSeparator();
 	viewMenu->addAction(default_theme);
 	read_themes(themes_grp,
-			viewMenu,QDir::homePath()+"/"USER_PATH"/"THEME_DIR);
+            viewMenu,QDir::homePath()+"/"+USER_PATH+"/"+THEME_DIR);
 	//TODO-hardcoded
 	read_themes(themes_grp,
-			viewMenu, PREFIX"/share/kcheckers/"THEME_DIR);
+            viewMenu, PREFIX "/share/kcheckers/" THEME_DIR);
 
 	connect(themes_grp, SIGNAL(triggered(QAction*)),
 		this, SLOT(set_theme(QAction*)));
@@ -355,7 +355,7 @@ void myTopLevel::make_central_widget()
 
 void myTopLevel::warning(const QString& text)
 {
-	QMessageBox::warning(this, tr("Error")+" - "APPNAME, text);
+    QMessageBox::warning(this, tr("Error")+" - "+APPNAME, text);
 }
 
 
@@ -363,7 +363,7 @@ void myTopLevel::information(const QString& caption, const QString& text)
 {
 	QDialog* dlg = new QDialog(this);
 	dlg->setModal(true);
-	dlg->setWindowTitle(caption+" - "APPNAME);
+    dlg->setWindowTitle(caption+" - "+APPNAME);
 
 	// logo left
 	QLabel* logo = new QLabel(dlg);
@@ -402,10 +402,10 @@ void myTopLevel::information(const QString& caption, const QString& text)
 void myTopLevel::slot_save_game()
 {
 	QString fn = QFileDialog::getSaveFileName(this,
-		tr("Save Game")+" - "APPNAME, filename, "PDN Files (*."EXT")");
+        tr("Save Game")+" - "+APPNAME, filename, "PDN Files (*." EXT ")");
 	if(!fn.isEmpty()) {
 		if(fn.right(3)!=EXT)
-			fn += "."EXT;
+            fn += "." EXT;
 
 		if(m_view->savePdn(fn))
 			filename = fn;
@@ -418,7 +418,7 @@ void myTopLevel::slot_save_game()
 void myTopLevel::slot_open_game()
 {
 	QString fn = QFileDialog::getOpenFileName(this,
-		tr("Open Game")+" - "APPNAME, filename, "PDN Files (*."EXT")");
+        tr("Open Game")+" - "+APPNAME, filename, "PDN Files (*." EXT ")");
 	if(!fn.isEmpty())
 		open(fn);
 }
@@ -498,10 +498,10 @@ void myTopLevel::slot_help()
 void myTopLevel::slot_about()
 {
 	QString text =
-		APPNAME", a board game.<br>Version "VERSION"<br><br>"
+        APPNAME", a board game.<br>Version " VERSION "<br><br>"
 		COPYRIGHT"<br>"
-		  	"<a href=\""HOMEPAGE"\">"HOMEPAGE"</a><br><br>"
-		"Contributors:<br>"CONTRIBS"<br><br>"
+            "<a href=\"" HOMEPAGE "\">" HOMEPAGE "</a><br><br>"
+        "Contributors:<br>" CONTRIBS "<br><br>"
 		"This program is distributed under the terms "
 		"of the GNU General Public License.";
 
@@ -543,7 +543,7 @@ bool myTopLevel::keep_game()
 	if(!settingsKeep->isChecked() || m_view->isAborted())
 		return false;
 
-	int answer = QMessageBox::question(this, tr("Abort Game?")+" - "APPNAME,
+    int answer = QMessageBox::question(this, tr("Abort Game?")+" - "+APPNAME,
 		tr("Current game will be lost if you continue.\n"
 		"Do you really want to discard it?"),
 		QMessageBox::Yes, QMessageBox::No);

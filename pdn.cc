@@ -347,7 +347,7 @@ bool PdnGame::parse(const QString& pdngame, QString& log_txt)
 		}
 	}
 
-	if(!parse_moves(moves+" "END_OF_MOVELINE)) {		// :)
+    if(!parse_moves(moves+" "+END_OF_MOVELINE)) {		// :)
 		log_txt += "\n +parsing moves failed.";
 		return false;
 	}
